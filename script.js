@@ -14,7 +14,9 @@ while (words.length < 1000) {
 let word = "";
 let guessedLetters = [];
 let wrongAttempts = 0;
+let hintUsed = 0; // Track hints used
 const maxAttempts = 6;
+const maxHints = 2; // Only allow 2 hints per word
 
 const wordDisplay = document.getElementById("word-display");
 const wrongGuesses = document.getElementById("wrong-guesses");
@@ -29,6 +31,7 @@ function getRandomWord() {
     word = words[Math.floor(Math.random() * words.length)];
     guessedLetters = [];
     wrongAttempts = 0;
+    hintUsed = 0;
     displayWord();
     resetGame();
     createKeyboard();
@@ -49,6 +52,7 @@ function createKeyboard() {
         const btn = document.createElement("button");
         btn.innerText = letter;
         btn.onclick = () => handleGuess(letter);
+        btn.classList.add("key");
         keyboard.appendChild(btn);
     });
 }
@@ -76,10 +80,16 @@ function revealHangmanPart(index) {
 
 // Get a hint (reveals one letter, counts as a wrong attempt)
 function getHint() {
-    if (wrongAttempts >= maxAttempts) return;
+    if (wrongAttempts >= maxAttempts || hintUsed >= maxHints) return;
+    
     let remainingLetters = word.split("").filter(l => !guessedLetters.includes(l));
     if (remainingLetters.length > 0) {
         handleGuess(remainingLetters[0]); // Reveal one letter
+        hintUsed++; // Increase hint count
+    }
+
+    if (hintUsed >= maxHints) {
+        hintBtn.disabled = true; // Disable hint button after 2 hints
     }
 }
 
@@ -101,6 +111,7 @@ function updateGameState() {
 function resetGame() {
     parts.forEach(part => (part.style.display = "none"));
     wrongGuesses.innerText = `Wrong Attempts: 0/${maxAttempts}`;
+    hintBtn.disabled = false; // Re-enable hint button
 }
 
 // Theme switcher
