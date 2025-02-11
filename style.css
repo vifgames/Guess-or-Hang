@@ -1,12 +1,21 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+:root {
+    --bg-color: #2c3e50;
+    --primary-color: white;
+    --secondary-color: #4ca1af;
+    --button-bg: white;
+    --button-text: #2c3e50;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     text-align: center;
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-    color: white;
+    background: var(--bg-color);
+    color: var(--primary-color);
     margin: 0;
     padding: 0;
+    transition: background 0.5s, color 0.5s;
 }
 
 .container {
@@ -18,9 +27,19 @@ body {
     box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
 }
 
-h1 {
-    font-size: 28px;
-    font-weight: 600;
+.theme-switcher {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+#theme-btn {
+    background: var(--button-bg);
+    color: var(--button-text);
+    padding: 8px 12px;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .hangman-container {
@@ -35,28 +54,9 @@ h1 {
 }
 
 .part {
-    stroke: white;
+    stroke: var(--primary-color);
     stroke-width: 4;
     display: none;
-}
-
-#word-display {
-    font-size: 24px;
-    letter-spacing: 5px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
-
-#wrong-guesses {
-    font-size: 18px;
-    color: #ffcccb;
-}
-
-#keyboard {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 8px;
-    margin-top: 10px;
 }
 
 button {
@@ -68,22 +68,14 @@ button {
     transition: 0.3s;
 }
 
-#keyboard button {
-    background: #ffffff;
-    color: #2c3e50;
+#keyboard button, #hint-btn, #restart {
+    background: var(--button-bg);
+    color: var(--button-text);
     font-weight: bold;
     box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-#keyboard button:hover {
-    background: #4ca1af;
+#keyboard button:hover, #hint-btn:hover, #restart:hover {
+    background: var(--secondary-color);
     color: white;
-}
-
-#restart {
-    margin-top: 20px;
-    background: #e74c3c;
-    color: white;
-    font-size: 20px;
-    display: none;
 }
