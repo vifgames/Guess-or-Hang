@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess or Hang</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Guess or Hang</h1>
+
+        <svg class="hangman" width="120" height="160">
+            <!-- Gallows -->
+            <line x1="10" y1="150" x2="80" y2="150" stroke="black" stroke-width="4" />
+            <line x1="45" y1="150" x2="45" y2="20" stroke="black" stroke-width="4" />
+            <line x1="45" y1="20" x2="80" y2="20" stroke="black" stroke-width="4" />
+            <line x1="80" y1="20" x2="80" y2="40" stroke="black" stroke-width="4" />
+
+            <!-- Hangman Parts (Hidden by Default) -->
+            <circle cx="80" cy="50" r="10" class="part" />
+            <line x1="80" y1="60" x2="80" y2="100" class="part" />
+            <line x1="80" y1="70" x2="60" y2="90" class="part" />
+            <line x1="80" y1="70" x2="100" y2="90" class="part" />
+            <line x1="80" y1="100" x2="60" y2="130" class="part" />
+            <line x1="80" y1="100" x2="100" y2="130" class="part" />
+        </svg>
+
+        <p id="word-display"></p>
+        <p id="wrong-guesses">Wrong Attempts: 0/6</p>
+
+        <div id="keyboard"></div>
+
+        <button id="restart">Restart Game</button>
+    </div>
+</body>
+</html>
