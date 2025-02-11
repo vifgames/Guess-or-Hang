@@ -1,89 +1,85 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+const API_URL = "https://random-word-api.herokuapp.com/word?length=5";
+let word = "";
+let guessedLetters = [];
+let wrongAttempts = 0;
+const maxAttempts = 6;
 
-body {
-    font-family: 'Poppins', sans-serif;
-    text-align: center;
-    background: linear-gradient(135deg, #2c3e50, #4ca1af);
-    color: white;
-    margin: 0;
-    padding: 0;
+const wordDisplay = document.getElementById("word-display");
+const wrongGuesses = document.getElementById("wrong-guesses");
+const keyboard = document.getElementById("keyboard");
+const restartBtn = document.getElementById("restart");
+const parts = document.querySelectorAll(".part");
+
+async function getRandomWord() {
+    try {
+        const response = await fetch(API_URL);
+        const data = await response.json();
+        word = data[0].toUpperCase();
+        displayWord();
+    } catch (error) {
+        word = "ERROR";
+        displayWord();
+    }
 }
 
-.container {
-    max-width: 400px;
-    margin: 50px auto;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+function displayWord() {
+    wordDisplay.innerHTML = word.split("").map(letter =>
+        guessedLetters.includes(letter) ? letter : "_"
+    ).join(" ");
 }
 
-h1 {
-    font-size: 28px;
-    font-weight: 600;
+function handleGuess(letter) {
+    if (guessedLetters.includes(letter) || wrongAttempts >= maxAttempts) return;
+
+    if (word.includes(letter)) {
+        guessedLetters.push(letter);
+    } else {
+        wrongAttempts++;
+        revealHangmanPart(wrongAttempts - 1);
+    }
+
+    updateGameState();
 }
 
-.hangman-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+function revealHangmanPart(index) {
+    if (parts[index]) {
+        parts[index].style.display = "block";
+    }
 }
 
-.hangman {
-    stroke-linecap: round;
+function updateGameState() {
+    displayWord();
+    wrongGuesses.innerText = `Wrong Attempts: ${wrongAttempts}/${maxAttempts}`;
+
+    if (word.split("").every(letter => guessedLetters.includes(letter))) {
+        alert("🎉 You Win!");
+        restartBtn.style.display = "block";
+    }
+
+    if (wrongAttempts >= maxAttempts) {
+        alert(`💀 You Lose! The word was: ${word}`);
+        restartBtn.style.display = "block";
+    }
 }
 
-.part {
-    stroke: white;
-    stroke-width: 4;
-    display: none;
+function createKeyboard() {
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    keyboard.innerHTML = "";
+    letters.forEach(letter => {
+        const btn = document.createElement("button");
+        btn.innerText = letter;
+        btn.onclick = () => handleGuess(letter);
+        keyboard.appendChild(btn);
+    });
 }
 
-#word-display {
-    font-size: 24px;
-    letter-spacing: 5px;
-    font-weight: 600;
-    margin-bottom: 15px;
-}
+restartBtn.addEventListener("click", () => {
+    guessedLetters = [];
+    wrongAttempts = 0;
+    parts.forEach(part => (part.style.display = "none"));
+    restartBtn.style.display = "none";
+    getRandomWord();
+});
 
-#wrong-guesses {
-    font-size: 18px;
-    color: #ffcccb;
-}
-
-#keyboard {
-    display: grid;
-    grid-template-columns: repeat(9, 1fr);
-    gap: 8px;
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    border-radius: 5px;
-    transition: 0.3s;
-}
-
-#keyboard button {
-    background: #ffffff;
-    color: #2c3e50;
-    font-weight: bold;
-    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.2);
-}
-
-#keyboard button:hover {
-    background: #4ca1af;
-    color: white;
-}
-
-#restart {
-    margin-top: 20px;
-    background: #e74c3c;
-    color: white;
-    font-size: 20px;
-    display: none;
-}
+createKeyboard();
+getRandomWord();
