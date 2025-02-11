@@ -4,28 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess or Hang</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="style.css">
     <script defer src="script.js"></script>
 </head>
 <body>
     <div class="container">
         <h1>Guess or Hang</h1>
 
-        <svg class="hangman" width="120" height="160">
-            <!-- Gallows -->
-            <line x1="10" y1="150" x2="80" y2="150" stroke="black" stroke-width="4" />
-            <line x1="45" y1="150" x2="45" y2="20" stroke="black" stroke-width="4" />
-            <line x1="45" y1="20" x2="80" y2="20" stroke="black" stroke-width="4" />
-            <line x1="80" y1="20" x2="80" y2="40" stroke="black" stroke-width="4" />
-
-            <!-- Hangman Parts (Hidden by Default) -->
-            <circle cx="80" cy="50" r="10" class="part" />
-            <line x1="80" y1="60" x2="80" y2="100" class="part" />
-            <line x1="80" y1="70" x2="60" y2="90" class="part" />
-            <line x1="80" y1="70" x2="100" y2="90" class="part" />
-            <line x1="80" y1="100" x2="60" y2="130" class="part" />
-            <line x1="80" y1="100" x2="100" y2="130" class="part" />
-        </svg>
+        <div class="hangman-container">
+            <svg class="hangman" width="200" height="250">
+                <line x1="20" y1="230" x2="120" y2="230" stroke="black" stroke-width="5" />
+                <line x1="70" y1="230" x2="70" y2="30" stroke="black" stroke-width="5" />
+                <line x1="70" y1="30" x2="150" y2="30" stroke="black" stroke-width="5" />
+                <line x1="150" y1="30" x2="150" y2="50" stroke="black" stroke-width="5" />
+                
+                <circle cx="150" cy="70" r="20" class="part" />
+                <line x1="150" y1="90" x2="150" y2="150" class="part" />
+                <line x1="150" y1="110" x2="120" y2="140" class="part" />
+                <line x1="150" y1="110" x2="180" y2="140" class="part" />
+                <line x1="150" y1="150" x2="130" y2="200" class="part" />
+                <line x1="150" y1="150" x2="170" y2="200" class="part" />
+            </svg>
+        </div>
 
         <p id="word-display"></p>
         <p id="wrong-guesses">Wrong Attempts: 0/6</p>
