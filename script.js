@@ -78,19 +78,25 @@ function revealHangmanPart(index) {
     }
 }
 
-// Get a hint (reveals one letter, counts as a wrong attempt)
+// Get a hint (reveals a **random** hidden letter, counts as a wrong attempt)
 function getHint() {
     if (wrongAttempts >= maxAttempts || hintUsed >= maxHints) return;
     
     let remainingLetters = word.split("").filter(l => !guessedLetters.includes(l));
+    
     if (remainingLetters.length > 0) {
-        handleGuess(remainingLetters[0]); // Reveal one letter
+        let randomLetter = remainingLetters[Math.floor(Math.random() * remainingLetters.length)];
+        handleGuess(randomLetter); // Reveal a **random** missing letter
         hintUsed++; // Increase hint count
+        wrongAttempts++; // Hint counts as a wrong attempt
+        revealHangmanPart(wrongAttempts - 1);
     }
 
     if (hintUsed >= maxHints) {
         hintBtn.disabled = true; // Disable hint button after 2 hints
     }
+
+    updateGameState();
 }
 
 // Update the game state (check win/loss)
