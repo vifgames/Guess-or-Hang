@@ -3,21 +3,11 @@ const words = [
     "PICTURE", "BOTTLE", "LADDER", "WIDGET", "FALCON", "TUNNEL", "MARKER", "SILVER",
     "CANDLE", "BREEZE", "VORTEX", "RHYTHM", "GADGET", "HUMBLE", "BORDER", "NUGGET",
     "WISDOM", "OCTANE", "POCKET", "GARDEN", "ISLAND", "LANTERN", "PLASMA", "TORQUE",
-    "UMBRELLA", "VIOLIN", "WONDER", "ZENITH", "BALANCE", "CAPTAIN", "DYNAMIC", "ECLIPSE",
-    "FACTORY", "GIGANTIC", "HORIZON", "JOURNEY", "KITCHEN", "LUMINARY", "MAGNETIC",
-    "NEUTRON", "OPULENT", "PARAGON", "QUOTIENT", "RESOLVE", "STELLAR", "TROPHY",
-    "UNIVERSE", "VIRTUE", "WHISPER", "XYLOPHONE", "YONDER", "ZEALOT", "ANCHOR", 
-    "BLOSSOM", "CHRONIC", "DIALECT", "EMERALD", "FABLE", "GLACIER", "HARMONY",
-    "INFINITY", "JUBILEE", "KERNEL", "LUXURY", "MAVERICK", "NOMADIC", "OBSIDIAN",
-    "PRISM", "QUASAR", "RESOLUTE", "SPECTRUM", "TRIUMPH", "VORTEX", "WONDERLAND",
-    "YACHT", "ZENITH", "ACCURATE", "BASILISK", "CELESTIAL", "DOMINION", "ELEVATION",
-    "FOUNDER", "GOSSAMER", "HERCULEAN", "ILLUSION", "JAGUAR", "KOMPASS", "LANTERN",
-    "METEOR", "NOSTALGIA", "ORBITAL", "PHOENIX", "QUANTUM", "RESONANCE", "SENTINEL",
-    "TELESCOPE", "ULTRAVIOLET", "VALIANT", "WILDERNESS", "YESTERYEAR", "ZODIAC"
+    "UMBRELLA", "VIOLIN", "WONDER", "ZENITH", "BALANCE", "CAPTAIN", "DYNAMIC", "ECLIPSE"
 ];
 
-// Ensures at least 1,000 words (you can add more)
-while (words.length < 2000) {
+// Ensure at least 1,000 words
+while (words.length < 1000) {
     words.push(words[Math.floor(Math.random() * words.length)]);
 }
 
@@ -41,6 +31,7 @@ function getRandomWord() {
     wrongAttempts = 0;
     displayWord();
     resetGame();
+    createKeyboard();
 }
 
 // Display underscores for the word
@@ -48,6 +39,18 @@ function displayWord() {
     wordDisplay.innerHTML = word.split("").map(letter =>
         guessedLetters.includes(letter) ? letter : "_"
     ).join(" ");
+}
+
+// Create the keyboard dynamically
+function createKeyboard() {
+    keyboard.innerHTML = "";
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    letters.forEach(letter => {
+        const btn = document.createElement("button");
+        btn.innerText = letter;
+        btn.onclick = () => handleGuess(letter);
+        keyboard.appendChild(btn);
+    });
 }
 
 // Handle user guesses
@@ -76,7 +79,7 @@ function getHint() {
     if (wrongAttempts >= maxAttempts) return;
     let remainingLetters = word.split("").filter(l => !guessedLetters.includes(l));
     if (remainingLetters.length > 0) {
-        handleGuess(remainingLetters[0]);
+        handleGuess(remainingLetters[0]); // Reveal one letter
     }
 }
 
